@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Transaksi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h2>Selamat Datang di Simulasi Transaksi</h2>
+        <h3>Saldo Saat Ini: Rp{{ balance }}</h3>
+
+        <form action="/add_transaction" method="post" class="mb-4">
+            <div class="mb-3">
+                <label for="transaction" class="form-label">Masukkan Data Transaksi Baru</label>
+                <textarea class="form-control" id="transaction" name="transaction" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Tambah Transaksi</button>
+        </form>
+
+        <h3>Daftar Transaksi</h3>
+        <ul class="list-group">
+            {% for transaction in transactions %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ loop.index }}. {{ transaction }}
+                    <form action="/process/{{ loop.index0 }}" method="post" class="ms-auto">
+                        <button type="submit" class="btn btn-primary btn-sm">Proses</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="/logout" class="btn btn-secondary mt-4">Logout</a>
+    </div>
+</body>
+</html>
